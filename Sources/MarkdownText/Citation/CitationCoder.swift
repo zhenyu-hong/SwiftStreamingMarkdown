@@ -25,7 +25,8 @@ public struct CitationCoder: Hashable, Sendable {
   /// (typically a longer, more descriptive form of the title).
   public let citationA11yTextQueryParam: String
   /// Name of the optional query param that carries the URL of the site's icon, drawn from
-  /// `CitationIconCache` before the title.
+  /// `CitationIconCache` before the title. Present at all, even empty, it keeps the icon's room
+  /// in the chip.
   public let citationIconQueryParam: String
 
   /// Create a coder with the supplied marker string and query-parameter names.
@@ -78,13 +79,15 @@ public struct CitationCoder: Hashable, Sendable {
     else {
       return nil
     }
-    let icon = queryItems.first(where: { $0.name == citationIconQueryParam })?.value.flatMap(URL.init(string:))
+    let iconItem = queryItems.first(where: { $0.name == citationIconQueryParam })
+    let icon = iconItem?.value.flatMap { $0.isEmpty ? nil : URL(string: $0) }
     return InlineAttachmentData(
       type: .citation,
       title: title,
       accessibilityLabel: a11yLabel,
       url: url,
-      iconURL: icon
+      iconURL: icon,
+      reservesIcon: iconItem != nil
     )
   }
 }

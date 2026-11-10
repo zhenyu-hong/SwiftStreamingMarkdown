@@ -21,6 +21,9 @@ struct InlineAttachmentData: Codable {
   let url: URL
   /// The site's icon, drawn before the title when `CitationIconCache` holds it.
   var iconURL: URL? = nil
+  /// Whether the chip keeps room for an icon, drawn or not, so the chip keeps its width when
+  /// the icon arrives.
+  var reservesIcon = false
 }
 
 /// Images for citation chips, keyed by icon URL. A chip is drawn once, as it is parsed, so the
