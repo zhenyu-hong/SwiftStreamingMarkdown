@@ -67,10 +67,10 @@ extension BlockMarkup {
             range: NSRange(location: 0, length: attachmentString.length)
           )
 
-          // Apply baseline offset to the attachment using the font from config
+          // Centre the chip on the paragraph text it sits in
           attachmentString.addAttribute(
             .baselineOffset,
-            value: config.paragraphStyle.textFonts.normal.descender,
+            value: attachment.centeredBaselineOffset(in: config.paragraphStyle.textFonts.normal),
             range: NSRange(location: 0, length: attachmentString.length)
           )
 

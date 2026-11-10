@@ -88,6 +88,16 @@ final class InlineCitationAttachment: NSTextAttachment {
     super.init(data: payload, ofType: UTType.url.identifier)
   }
 
+  /// The baseline offset that centres the chip on the cap height of `font`, the text it sits in.
+  ///
+  /// Offsetting by the font's descender put the chip's bottom on the descender line, so its
+  /// centre sat about 2pt below that of the capitals and CJK glyphs beside it.
+  func centeredBaselineOffset(in font: MDFont) -> CGFloat {
+    let height = image?.size.height ?? 0
+    guard height > 0 else { return font.descender }
+    return ((font.capHeight - height) / 2).rounded()
+  }
+
   /// Create citation attachment directly from data struct
   convenience init?(citationData: InlineAttachmentData, citationConfig: MarkdownRenderConfig.CitationConfig) {
     guard citationData.type == .citation,
