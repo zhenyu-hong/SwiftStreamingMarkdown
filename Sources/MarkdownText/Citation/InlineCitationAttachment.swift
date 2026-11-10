@@ -29,8 +29,9 @@ final class InlineCitationAttachment: NSTextAttachment {
 
   // MARK: - Shared Layout
 
-  static let textInsets = MDEdgeInsets(top: 2, left: 4, bottom: 2, right: 4)
-  static let iconGap: CGFloat = 3
+  static let textInsets = MDEdgeInsets(top: 3, left: 4, bottom: 3, right: 6)
+  static let iconGap: CGFloat = 4
+  /// Kept for AppKit; on UIKit the chip is a capsule, its radius half its height.
   static let cornerRadius: CGFloat = 6
 
   #if canImport(UIKit)
@@ -140,14 +141,16 @@ final class InlineCitationAttachment: NSTextAttachment {
     // An icon is as tall as the title's line, with a small gap before the title. Its room stays,
     // empty, while the icon is on its way, so the chip does not widen when it arrives.
     #if canImport(UIKit)
-    let iconSide: CGFloat = icon == nil && !reservesIcon ? 0 : ceil(textSize.height)
+    // A touch taller than the title's capitals, centred with it.
+    let iconSide: CGFloat = icon == nil && !reservesIcon ? 0 : (font.pointSize * 1.1).rounded()
     #else
     let iconSide: CGFloat = 0
     #endif
     let iconSpace = iconSide > 0 ? iconSide + iconGap : 0
+    let contentHeight = max(ceil(textSize.height), iconSide)
     let totalSize = CGSize(
       width: iconSpace + ceil(textSize.width) + textInsets.left + textInsets.right,
-      height: ceil(textSize.height) + textInsets.top + textInsets.bottom
+      height: contentHeight + textInsets.top + textInsets.bottom
     )
 
     // Render the citation pill image
@@ -155,18 +158,18 @@ final class InlineCitationAttachment: NSTextAttachment {
     let renderer = UIGraphicsImageRenderer(size: totalSize)
     return renderer.image { _ in
       let rect = CGRect(origin: .zero, size: totalSize)
-      let path = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
+      let path = UIBezierPath(roundedRect: rect, cornerRadius: totalSize.height / 2)
       resolvedBackgroundColor.setFill()
       path.fill()
 
       if let icon, iconSide > 0 {
-        let iconRect = CGRect(x: textInsets.left, y: textInsets.top, width: iconSide, height: iconSide)
+        let iconRect = CGRect(x: textInsets.left, y: (totalSize.height - iconSide) / 2, width: iconSide, height: iconSide)
         UIGraphicsGetCurrentContext()?.saveGState()
         UIBezierPath(ovalIn: iconRect).addClip()
         icon.draw(in: iconRect)
         UIGraphicsGetCurrentContext()?.restoreGState()
       }
-      let textRect = CGRect(x: textInsets.left + iconSpace, y: textInsets.top,
+      let textRect = CGRect(x: textInsets.left + iconSpace, y: (totalSize.height - ceil(textSize.height)) / 2,
                             width: ceil(textSize.width), height: ceil(textSize.height))
       (title as NSString).draw(in: textRect, withAttributes: attributes)
     }
