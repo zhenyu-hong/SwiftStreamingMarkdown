@@ -30,6 +30,7 @@ final class InlineCitationAttachment: NSTextAttachment {
   // MARK: - Shared Layout
 
   static let textInsets = MDEdgeInsets(top: 2, left: 4, bottom: 2, right: 4)
+  static let iconGap: CGFloat = 3
   static let cornerRadius: CGFloat = 6
 
   #if canImport(UIKit)
@@ -70,13 +71,14 @@ final class InlineCitationAttachment: NSTextAttachment {
     self.backgroundColor = MDColor(citationConfig.backgroundColor)
 
     if let title = citationData?.title {
+      let icon = citationData?.iconURL.flatMap { CitationIconCache.shared.image(for: $0) }
       self.lightPreviewImage = Self.renderCitationImage(
-        title: title, font: self.font,
+        title: title, icon: icon, font: self.font,
         textColor: self.textColor, backgroundColor: self.backgroundColor,
         appearance: .light
       )
       self.darkPreviewImage = Self.renderCitationImage(
-        title: title, font: self.font,
+        title: title, icon: icon, font: self.font,
         textColor: self.textColor, backgroundColor: self.backgroundColor,
         appearance: .dark
       )
@@ -114,7 +116,7 @@ final class InlineCitationAttachment: NSTextAttachment {
   // MARK: - Preview Image Rendering
 
   private static func renderCitationImage(
-    title: String, font: MDFont,
+    title: String, icon: MDImage?, font: MDFont,
     textColor: MDColor, backgroundColor: MDColor,
     appearance: AppAppearance
   ) -> MDImage {
@@ -134,8 +136,15 @@ final class InlineCitationAttachment: NSTextAttachment {
 
     let attributes: [NSAttributedString.Key: Any] = [.font: font, .foregroundColor: resolvedTextColor]
     let textSize = (title as NSString).size(withAttributes: attributes)
+    // An icon is as tall as the title's line, with a small gap before the title.
+    #if canImport(UIKit)
+    let iconSide: CGFloat = icon == nil ? 0 : ceil(textSize.height)
+    #else
+    let iconSide: CGFloat = 0
+    #endif
+    let iconSpace = iconSide > 0 ? iconSide + iconGap : 0
     let totalSize = CGSize(
-      width: ceil(textSize.width) + textInsets.left + textInsets.right,
+      width: iconSpace + ceil(textSize.width) + textInsets.left + textInsets.right,
       height: ceil(textSize.height) + textInsets.top + textInsets.bottom
     )
 
@@ -148,7 +157,14 @@ final class InlineCitationAttachment: NSTextAttachment {
       resolvedBackgroundColor.setFill()
       path.fill()
 
-      let textRect = CGRect(x: textInsets.left, y: textInsets.top,
+      if let icon, iconSide > 0 {
+        let iconRect = CGRect(x: textInsets.left, y: textInsets.top, width: iconSide, height: iconSide)
+        UIGraphicsGetCurrentContext()?.saveGState()
+        UIBezierPath(ovalIn: iconRect).addClip()
+        icon.draw(in: iconRect)
+        UIGraphicsGetCurrentContext()?.restoreGState()
+      }
+      let textRect = CGRect(x: textInsets.left + iconSpace, y: textInsets.top,
                             width: ceil(textSize.width), height: ceil(textSize.height))
       (title as NSString).draw(in: textRect, withAttributes: attributes)
     }

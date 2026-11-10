@@ -24,6 +24,9 @@ public struct CitationCoder: Hashable, Sendable {
   /// Name of the query param that carries the citation's accessibility label
   /// (typically a longer, more descriptive form of the title).
   public let citationA11yTextQueryParam: String
+  /// Name of the optional query param that carries the URL of the site's icon, drawn from
+  /// `CitationIconCache` before the title.
+  public let citationIconQueryParam: String
 
   /// Create a coder with the supplied marker string and query-parameter names.
   /// All four arguments together define the on-the-wire citation format.
@@ -31,12 +34,14 @@ public struct CitationCoder: Hashable, Sendable {
     citationMarker: String,
     citationMarkerQueryParam: String,
     citationTextQueryParam: String,
-    citationA11yTextQueryParam: String
+    citationA11yTextQueryParam: String,
+    citationIconQueryParam: String = "citationIcon"
   ) {
     self.citationMarker = citationMarker
     self.citationMarkerQueryParam = citationMarkerQueryParam
     self.citationTextQueryParam = citationTextQueryParam
     self.citationA11yTextQueryParam = citationA11yTextQueryParam
+    self.citationIconQueryParam = citationIconQueryParam
   }
 
   // MARK: - Detection
@@ -73,11 +78,13 @@ public struct CitationCoder: Hashable, Sendable {
     else {
       return nil
     }
+    let icon = queryItems.first(where: { $0.name == citationIconQueryParam })?.value.flatMap(URL.init(string:))
     return InlineAttachmentData(
       type: .citation,
       title: title,
       accessibilityLabel: a11yLabel,
-      url: url
+      url: url,
+      iconURL: icon
     )
   }
 }
