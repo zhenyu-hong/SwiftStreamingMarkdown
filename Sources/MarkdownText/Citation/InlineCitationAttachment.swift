@@ -99,7 +99,10 @@ final class InlineCitationAttachment: NSTextAttachment {
   func centeredBaselineOffset(in font: MDFont) -> CGFloat {
     let height = image?.size.height ?? 0
     guard height > 0 else { return font.descender }
-    return ((font.capHeight - height) / 2).rounded()
+    // A chip taller than the capitals is held to 2pt above them, hanging lower instead: reaching
+    // higher made its line taller than the lines around it.
+    let centred = ((font.capHeight - height) / 2).rounded()
+    return min(centred, (font.capHeight + 2 - height).rounded())
   }
 
   /// Create citation attachment directly from data struct
