@@ -99,10 +99,15 @@ final class InlineCitationAttachment: NSTextAttachment {
   func centeredBaselineOffset(in font: MDFont) -> CGFloat {
     let height = image?.size.height ?? 0
     guard height > 0 else { return font.descender }
-    // A chip taller than the capitals is held to 2pt above them, hanging lower instead: reaching
-    // higher made its line taller than the lines around it.
-    let centred = ((font.capHeight - height) / 2).rounded()
-    return min(centred, (font.capHeight + 2 - height).rounded())
+    return ((font.capHeight - height) / 2).rounded()
+  }
+
+  /// Centres the chip on `font` through its bounds. TextKit sizes a line from an attachment's
+  /// bounds, so a `.baselineOffset` attribute only moved the chip on screen: a chip taller than
+  /// the font's ascent still made its line taller than the lines around it.
+  func centre(in font: MDFont) {
+    guard let size = image?.size, size.height > 0 else { return }
+    bounds = CGRect(x: 0, y: centeredBaselineOffset(in: font), width: size.width, height: size.height)
   }
 
   /// Create citation attachment directly from data struct

@@ -68,11 +68,7 @@ extension BlockMarkup {
           )
 
           // Centre the chip on the paragraph text it sits in
-          attachmentString.addAttribute(
-            .baselineOffset,
-            value: attachment.centeredBaselineOffset(in: config.paragraphStyle.textFonts.normal),
-            range: NSRange(location: 0, length: attachmentString.length)
-          )
+          attachment.centre(in: config.paragraphStyle.textFonts.normal)
 
           // Add the citation directly to result
           result.append(attachmentString)

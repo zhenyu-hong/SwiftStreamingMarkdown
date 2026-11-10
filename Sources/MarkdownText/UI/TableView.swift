@@ -381,8 +381,7 @@ extension TableView {
       for range in citationRanges {
         guard let attachment = mutableAttributedString.attribute(.attachment, at: range.location, effectiveRange: nil)
           as? InlineCitationAttachment else { continue }
-        let baselineOffsetValue = attachment.centeredBaselineOffset(in: Typography.base.mdFont)
-        mutableAttributedString.addAttribute(.baselineOffset, value: baselineOffsetValue, range: range)
+        attachment.centre(in: Typography.base.mdFont)
       }
     }
 
