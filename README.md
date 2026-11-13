@@ -1,7 +1,7 @@
 # SwiftStreamingMarkdown
 
 [![CI](https://github.com/microsoft/SwiftStreamingMarkdown/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/microsoft/SwiftStreamingMarkdown/actions/workflows/ci.yml)
-[![Swift 5.9](https://img.shields.io/badge/Swift-5.9-orange.svg)](https://swift.org)
+[![Swift 6.2](https://img.shields.io/badge/Swift-6.2-orange.svg)](https://swift.org)
 [![iOS 16+](https://img.shields.io/badge/iOS-16%2B-blue.svg)](https://developer.apple.com/ios/)
 [![macOS 14+](https://img.shields.io/badge/macOS-14%2B-blue.svg)](https://developer.apple.com/macos/)
 [![SwiftPM](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg)](https://swift.org/package-manager/)

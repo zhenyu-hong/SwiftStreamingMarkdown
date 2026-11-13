@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -13,11 +13,11 @@ let package = Package(
       targets: ["SwiftStreamingMarkdown"])
   ],
   dependencies: [
-    .package(url: "https://github.com/ordo-one/equatable", exact: "1.4.1"),
-    .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.19.3"),
-    .package(url: "https://github.com/swiftlang/swift-markdown.git", exact: "0.7.3"),
+    .package(url: "https://github.com/ordo-one/equatable", exact: "1.6.0"),
+    .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.19.7"),
+    .package(url: "https://github.com/swiftlang/swift-markdown.git", exact: "0.9.0"),
     .package(url: "https://github.com/appstefan/highlightswift", revision: "99c431b38a1444a5fd6a4978307fbbefe3a7af53"),
-    .package(url: "https://github.com/junyan72/iosMath", revision: "ba9ab7729b151329c54fd895a7c1859981d9484c"),
+    .package(url: "https://github.com/kostub/iosMath", exact: "2.5.0"),
     .package(url: "https://github.com/markiv/SwiftUI-Shimmer", exact: "1.5.1")
   ],
   targets: [
@@ -45,5 +45,6 @@ let package = Package(
       resources: [
         .process("Resources")
       ])
-  ]
+  ],
+  swiftLanguageModes: [.v5]
 )

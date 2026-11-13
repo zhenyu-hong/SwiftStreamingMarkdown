@@ -1,12 +1,13 @@
 {
+  "originHash" : "4ac5b974e69333c8ae282e23803426cdbfc56414f83dbff2b34df56515930ce8",
   "pins" : [
     {
       "identity" : "equatable",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ordo-one/equatable",
       "state" : {
-        "revision" : "597c2bb34af0c51331eb3b5e705f942d8ee20daa",
-        "version" : "1.4.1"
+        "revision" : "d4e3e63cffb1123492fea240806a0aa59b501113",
+        "version" : "1.6.0"
       }
     },
     {
@@ -20,9 +21,10 @@
     {
       "identity" : "iosmath",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/junyan72/iosMath",
+      "location" : "https://github.com/kostub/iosMath",
       "state" : {
-        "revision" : "ba9ab7729b151329c54fd895a7c1859981d9484c"
+        "revision" : "838cddc01fdd67efd530f8bb67959ad2715f9b06",
+        "version" : "2.5.0"
       }
     },
     {
@@ -30,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/swiftlang/swift-cmark.git",
       "state" : {
-        "revision" : "924936d0427cb25a61169739a7660230bffa6ea6",
-        "version" : "0.8.0"
+        "revision" : "08ddb528923cc1a6527e02b7a1aee9e516ca749a",
+        "version" : "0.9.0"
       }
     },
     {
@@ -48,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/swiftlang/swift-markdown.git",
       "state" : {
-        "revision" : "7d9a5ce307528578dfa777d505496bd5f544ad94",
-        "version" : "0.7.3"
+        "revision" : "25cb61d3482054b09ae76ca4f281b1bfe7fe5a43",
+        "version" : "0.9.0"
       }
     },
     {
@@ -57,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-snapshot-testing",
       "state" : {
-        "revision" : "1bc16f430d8410e7f087d4c787767b26fd32fe30",
-        "version" : "1.19.3"
+        "revision" : "1488390b0735e726564b948bf08b384398bdab5c",
+        "version" : "1.19.7"
       }
     },
     {
@@ -89,5 +91,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
